@@ -4,3 +4,8 @@ ProxyServer::ProxyServer()
 {
 
 }
+
+void ProxyServer::connect()
+{
+
+}
