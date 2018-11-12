@@ -1,16 +1,26 @@
 #ifndef PROXYSERVER_H
 #define PROXYSERVER_H
-#include <../libs/boost/boost/asio.hpp>
+#include <boost/asio.hpp>
+#include <boost/thread.hpp>
+#include <boost/bind.hpp>
+
+using namespace boost::asio;
 
 class ProxyServer
 {
 public:
     ProxyServer();
 
-private::
+    void start();
+    void stop();
+
+private:
     void connect();
 
-    boost::asio::ip::tcp::socket m_socket;
+    ip::tcp::socket m_socket;
+    bool m_started{ false };
+
+    thread_pool* thrPool{nullptr};
 };
 
 #endif // PROXYSERVER_H

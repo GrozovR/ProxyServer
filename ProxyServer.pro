@@ -10,7 +10,8 @@ CONFIG -= app_bundle
 DEFINES += QT_DEPRECATED_WARNINGS
 
 # compiling http://blog.harrix.org/article/7123
-INCLUDEPATH += D:\Docs\QTProjects\libs\boost\boost_mingw_53_32\include\boost-1_68
+#INCLUDEPATH += D:\Docs\QTProjects\libs\boost\boost_mingw_53_32\include\boost-1_68
+INCLUDEPATH += D:\qtProjects\libs\boost\boost_mingw_53_32\include\boost-1_68
 
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -19,7 +20,6 @@ INCLUDEPATH += D:\Docs\QTProjects\libs\boost\boost_mingw_53_32\include\boost-1_6
 
 SOURCES += \
         main.cpp \
-    threadpool.cpp \
     proxyserver.cpp
 
 # Default rules for deployment.
@@ -28,5 +28,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    threadpool.h \
     proxyserver.h

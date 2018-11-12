@@ -1,31 +1,33 @@
 #include <QCoreApplication>
-//#include <../libs/boost_1_68_0/boost/asio/impl/src.hpp>
-#include <../libs/boost/boost/asio.hpp>
 
-using namespace boost::asio;
+#include "proxyserver.h"
 
 int main(int argc, char *argv[])
 {
-
+    QCoreApplication a(argc, argv);
 
     try {
 
+        ip::address inputAddress;
+        int inputPort{ 0 };
+
+        if(argc > 2){
+            inputAddress = ip::address::from_string(argv[1]);
+            inputPort = atoi(argv[2]); //port for connect
+        }
+
+        unsigned int cores = std::thread::hardware_concurrency();
+
+        ip::tcp::endpoint ep(inputAddress , inputPort);
+
+        io_service service;
+        io_context io_context; // input output os
+        io_context.run();
+
+
     } catch (std::exception& e) {
-        //std::printf()
+        //std::cerr
     }
-
-
-    QCoreApplication a(argc, argv);
-
-    io_service service;
-
-
-    int inputPort; //port for connect
-    ip::address inputAddress; //input address, line params
-    ip::tcp::endpoint ep(inputAddress , 80);
-
-    io_context io_context; // input output os
-    io_context.run();
 
     return a.exec();
 }
