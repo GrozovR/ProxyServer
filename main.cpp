@@ -1,11 +1,8 @@
-#include <QCoreApplication>
-
+#include <iostream>
 #include "proxyserver.h"
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
-
     try {
 
         ip::address inputAddress;
@@ -18,16 +15,15 @@ int main(int argc, char *argv[])
 
         unsigned int cores = std::thread::hardware_concurrency();
 
-        ip::tcp::endpoint ep(inputAddress , inputPort);
+        ip::tcp::endpoint ep(inputAddress, inputPort);
 
-        io_service service;
-        io_context io_context; // input output os
-        io_context.run();
+        io_context ioContext; // input output os
+
+        //ProxyServer prxServer(ioContext);
+        ioContext.run();
 
 
     } catch (std::exception& e) {
-        //std::cerr
+        std::cout << e.what() << std::endl;
     }
-
-    return a.exec();
 }
