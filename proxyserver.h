@@ -3,20 +3,23 @@
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
+#include "tcp_connection.h"
 #include "client.h"
+
 using namespace boost::asio;
 
 class ProxyServer
 {
 public:
-    ProxyServer();
+    ProxyServer(io_context& io_context);
 
     void start(ip::tcp::endpoint& ep);
     void stop();
 
 private:
+    void start_accept();
     void connect();
-    void handle_accept(std::shared_ptr<client> sp_client, boost::system::error_code& erc);
+    void handle_accept(tcp_connection::pointer new_connection, boost::system::error_code& erc);
 
     ip::tcp::socket m_socket;
     bool m_started{ false };
