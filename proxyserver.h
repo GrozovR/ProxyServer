@@ -10,10 +10,14 @@ using namespace boost::asio;
 
 class ProxyServer
 {
+
 public:
     ProxyServer(io_context& io_context);
+    ProxyServer(std::vector<std::shared_ptr<io_context>> io_contxtVec,
+                const std::string& local_host, unsigned short local_port);
 
-    void start(ip::tcp::endpoint& ep);
+    //void start(ip::tcp::endpoint& ep);
+    void accepteConnections();
     void stop();
 
 private:

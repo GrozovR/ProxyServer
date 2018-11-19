@@ -5,31 +5,31 @@ int main(int argc, char *argv[])
 {
     try {
 
-        ip::address inputAddress;
-        int inputPort{ 0 };
-
-        if(argc > 2){
-            inputAddress = ip::address::from_string(argv[1]);
-            inputPort = atoi(argv[2]); //port for connect
+        if(argc != 3){
+            std::cerr << "Usage: proxy_server <local host ip> <port>\n";
+            return  1;
         }
 
-        unsigned int cores = std::thread::hardware_concurrency();
-        thread_pool thr_pool(cores);
+        const std::string local_host = argv[1];
+        const unsigned short local_port = static_cast<unsigned short>(::atoi(argv[2]));
 
+        const unsigned int cores = std::thread::hardware_concurrency();
+        //thread_pool thr_pool(cores);
+
+        //TODO: all io_contxt must be in diff threads
+
+        std::vector<std::shared_ptr<io_context>> contxtVector;
         for(size_t i{ 0 }; i < cores; i++){
 
             std::shared_ptr<io_context> ioContxt(new io_context);
-
+            contxtVector.push_back(ioContxt);
         }
 
-        ip::tcp::endpoint ep(inputAddress, inputPort);
+        ProxyServer prxServer(contxtVector, local_host, local_port);
+        prxServer.accepteConnections();
 
-        ios_deque
-        io_context ioContext; // input output os
-
-        //ProxyServer prxServer(ioContext);
-        ioContext.run();
-
+        for(auto io_cntxt : contxtVector)
+            io_cntxt->run();
 
     } catch (std::exception& e) {
         std::cout << e.what() << std::endl;

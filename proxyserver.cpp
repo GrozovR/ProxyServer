@@ -7,6 +7,16 @@ ProxyServer::ProxyServer(io_context& io_context)
     m_thrPool = new boost::asio::thread_pool(std::thread::hardware_concurrency());
 }
 
+ProxyServer::ProxyServer(std::vector<std::shared_ptr<io_context> > io_contxtVec, const std::string &local_host, unsigned short local_port)
+{
+
+}
+
+void ProxyServer::accepteConnections()
+{
+
+}
+
 void ProxyServer::start(ip::tcp::endpoint& ep)
 {
     tcp_connection::pointer new_connection = tcp_connection::create(m_acceptor.get_io_context());
