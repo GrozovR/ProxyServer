@@ -14,22 +14,18 @@ int main(int argc, char *argv[])
         const unsigned short local_port = static_cast<unsigned short>(::atoi(argv[2]));
 
         const unsigned int cores = std::thread::hardware_concurrency();
-        //thread_pool thr_pool(cores);
 
         //TODO: all io_contxt must be in diff threads
-
         std::vector<std::shared_ptr<io_context>> contxtVector;
+
         for(size_t i{ 0 }; i < cores; i++){
 
             std::shared_ptr<io_context> ioContxt(new io_context);
             contxtVector.push_back(ioContxt);
-        }
+        }        
 
         ProxyServer prxServer(contxtVector, local_host, local_port);
         prxServer.accepteConnections();
-
-        for(auto io_cntxt : contxtVector)
-            io_cntxt->run();
 
     } catch (std::exception& e) {
         std::cout << e.what() << std::endl;

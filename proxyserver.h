@@ -3,8 +3,9 @@
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
-#include "tcp_connection.h"
+#include "tcp_briidge.h"
 #include "client.h"
+#include "thread_pool.h"
 
 using namespace boost::asio;
 
@@ -12,7 +13,6 @@ class ProxyServer
 {
 
 public:
-    ProxyServer(io_context& io_context);
     ProxyServer(std::vector<std::shared_ptr<io_context>> io_contxtVec,
                 const std::string& local_host, unsigned short local_port);
 
@@ -25,13 +25,17 @@ private:
     void connect();
     void handle_accept(tcp_connection::pointer new_connection, boost::system::error_code& erc);
 
+    const std::string m_incomeIp;
+    const unsigned short m_incomePort;
+    std::string m_outcomeIp;
+
     ip::tcp::socket m_socket;
     bool m_started{ false };
 
 
     ip::tcp::acceptor m_acceptor;
 
-    thread_pool* m_thrPool{nullptr};
+    CThreadPool m_thread_pool;
 };
 
 #endif // PROXYSERVER_H

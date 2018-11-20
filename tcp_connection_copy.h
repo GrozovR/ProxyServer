@@ -8,6 +8,20 @@
 
 using namespace boost::asio;
 
+//Increase last number of ip address +=2
+std::string&& increaseIP(const std::string& ip){
+
+    std::string sbstr= ip.substr(ip.find_last_of('.')+1, ip.size() - 1);
+
+    //TODO: check max ip number <=252 ?
+    int lastNum = atoi(sbstr.c_str());
+    lastNum += 2;
+
+    sbstr = ip.substr(0, ip.find_last_of('.') + 1);
+    sbstr.append(std::to_string(lastNum));
+
+    return std::move(sbstr);
+}
 
 class tcp_connection
         : public boost::enable_shared_from_this<tcp_connection>
@@ -62,6 +76,11 @@ private:
 
     void close()
     {}
+
+
+    boost::asio::ip::tcp::socket m_incomeSocket;
+    boost::asio::ip::tcp::socket m_outputSocket;
+    std::string m_message;
 
     int m_bytesTransmit{ 0 };
     enum { max_data_length = 8192}; //8KB

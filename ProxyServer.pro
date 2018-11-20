@@ -21,7 +21,9 @@ INCLUDEPATH += D:\qtProjects\libs\boost\boost_mingw_53_32\include\boost-1_68
 SOURCES += \
         main.cpp \
     proxyserver.cpp \
-    client.cpp
+    client.cpp \
+    tcp_briidge.cpp \
+    thread_pool.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -31,4 +33,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     proxyserver.h \
     client.h \
-    tcp_connection.h
+    tcp_connection.h \
+    tcp_briidge.h \
+    thread_pool.h
